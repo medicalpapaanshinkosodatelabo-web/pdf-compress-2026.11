@@ -48,6 +48,7 @@
     display:flex;flex-direction:column;gap:14px}
   header h1{margin:0;font-size:22px;text-wrap:balance}
   header p{margin:4px 0 0;color:var(--sub);font-size:13px}
+  a{color:var(--accent)}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}
   h2{font-size:15px;margin:0 0 12px;display:flex;align-items:center;gap:8px}
   .step{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--accent);
@@ -108,6 +109,7 @@
   <header>
     <h1>PDF圧縮ツール（NotebookLM用）</h1>
     <p>大きすぎるPDFを、目標のサイズ（はじめは199MB）より少しだけ小さくします。文字はそのまま残し、中の写真・画像だけを、できるだけきれいなまま縮めます。PDFはこの端末の中だけで処理され、どこにも送られません。</p>
+    <p>画質を一切落としたくないときは <a href="https://medicalpapaanshinkosodatelabo-web.github.io/pdf-split-2026.11/">PDF分割ツール</a>（199MB未満ずつに分ける）を使ってください。</p>
   </header>
 
   <section class="card">
@@ -606,7 +608,7 @@
         $("rNote").textContent = `目標の ${target / MB} MB 未満になりました（元の${pct}%）。NotebookLM に入れられます。`;
       } else {
         $("rNote").className = "note err";
-        $("rNote").textContent = `いちばん小さくしても ${target / MB} MB 未満になりませんでした。PDFを2つに分けてから使ってください。`;
+        $("rNote").textContent = `いちばん小さくしても ${target / MB} MB 未満になりませんでした。PDF分割ツールで分けてから使ってください。`;
       }
       const facts = [
         `正確なバイト数：${fmtInt(r.bytes.length)} バイト（Windows のエクスプローラーでは「約${fmtWin(r.bytes.length)}」と表示されます）`,
@@ -623,8 +625,8 @@
       const m = String(e && e.message || e);
       if (e instanceof Stopped) setMsg("やめました");
       else if (m === "ENCRYPTED") setMsg("パスワードや保護がかかったPDFは縮められません", true);
-      else if (m === "NOIMAGES") setMsg("このPDFには縮められる画像がありませんでした。PDFを2つに分けて使ってください", true);
-      else if (m === "FIXEDBIG") setMsg("画像以外の部分だけで目標をこえています。PDFを2つに分けて使ってください", true);
+      else if (m === "NOIMAGES") setMsg("このPDFには縮められる画像がありませんでした。PDF分割ツールで分けて使ってください", true);
+      else if (m === "FIXEDBIG") setMsg("画像以外の部分だけで目標をこえています。PDF分割ツールで分けて使ってください", true);
       else if (/memory|allocation|Array buffer/i.test(m)) setMsg("メモリが足りませんでした。ほかのタブを閉じるか、パソコンで試してください", true);
       else setMsg("縮められませんでした：" + m, true);
       console.error(e);
